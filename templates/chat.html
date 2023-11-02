@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with GPT-3.5</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dark-theme.css') }}">
+    <style>
+        .loading {
+            color: #ccc; /* Color for loading indicator */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-column"></div>
+        <div class="center-column">
+            <h1>Chat with GPT-3.5</h1>
+            <div id="chat-container">
+                <div id="chat-output"></div>
+                <div id="loading-indicator" class="loading"></div>
+                <input id="user-message" type="text" placeholder="Ask me anything..." onkeydown="sendMessage(event)">
+            </div>
+        </div>
+        <div class="right-column"></div>
+    </div>
+
+    <script>
+        function sendMessage(event) {
+            if (event.key === "Enter") {
+                const userMessage = document.getElementById("user-message").value;
+                addMessage("User", userMessage);
+                document.getElementById("user-message").value = "";
+                
+                // Show loading indicator
+                const loadingIndicator = document.getElementById("loading-indicator");
+                loadingIndicator.textContent = "...";
+
+                fetch("/ask", {
+                    method: "POST",
+                    body: new URLSearchParams({ "user_message": userMessage }),
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading indicator
+                    loadingIndicator.textContent = "";
+
+                    const assistantResponse = data.assistant_response;
+                    addMessage("Assistant", assistantResponse);
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        }
+
+        function addMessage(role, message) {
+            const chatOutput = document.getElementById("chat-output");
+            const messageDiv = document.createElement("div");
+            messageDiv.innerHTML = `<strong class="${role.toLowerCase()}-label">${role}:</strong> ${message}`;
+            chatOutput.appendChild(messageDiv);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* dark-theme.css */
+body {
+    background-color: #111;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#chat-container {
+    background-color: #222;
+    width: 60%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-output {
+    border: 1px solid #333;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+input[type="text"] {
+    background-color: #333;
+    color: #eee;
+    border: none;
+    border-bottom: 2px solid #555; /* Add shadow to the input box */
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.user-label {
+    color: blue;
+}
+
+.assistant-label {
+    color: red;
+}
+
+/* Define the columns */
+.left-column {
+    width: 20%;
+    background-color: #333;
+}
+
+.center-column {
+    width: 60%;
+    background-color: #222;
+    padding: 20px;
+}
+
+.right-column {
+    width: 20%;
+    background-color: #333;
+}
+
+@media (max-width: 768px) {
+    .container {
+        display: block;
+    }
+
+    /* Adjust column widths for mobile */
+    .left-column, .center-column, .right-column {
+        width: 100%;
+    }
+}
+
+.loading {
+    color: #ccc; /* Color for loading indicator */
+}
